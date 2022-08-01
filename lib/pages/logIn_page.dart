@@ -224,6 +224,7 @@ class _LogInPageState extends State<LogInPage> {
         }
         else {
           status = await AuthService.register(email_Controller.text, password_Controller.text);
+          await AuthService.sendVeryficationMail();
         }
         if (status) {
           if (!mounted) return;
