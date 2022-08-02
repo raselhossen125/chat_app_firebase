@@ -1,4 +1,4 @@
-// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors
+// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, use_build_context_synchronously, use_rethrow_when_possible
 
 import 'package:chat_app_firebase/auth/auth_service.dart';
 import 'package:chat_app_firebase/provider/userProvider.dart';
@@ -46,7 +46,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     Center(
                       child: userModel.image == null
                           ? Image.asset(
-                              'images/R.jpg',
+                              'images/R.png',
                               height: 100,
                               width: 100,
                               fit: BoxFit.cover,
@@ -105,7 +105,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
   void _updateImage() async {
     final xFile = await ImagePicker()
-        .pickImage(source: ImageSource.camera, imageQuality: 75);
+        .pickImage(source: ImageSource.gallery, imageQuality: 75);
     if (xFile != null) {
       try {
         final downloadUrl =

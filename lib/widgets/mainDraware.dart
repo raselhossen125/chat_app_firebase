@@ -1,6 +1,7 @@
+// ignore_for_file: use_build_context_synchronously, prefer_const_constructors
+
 import 'package:chat_app_firebase/auth/auth_service.dart';
 import 'package:chat_app_firebase/pages/launcher_page.dart';
-import 'package:chat_app_firebase/pages/logIn_page.dart';
 import 'package:flutter/material.dart';
 
 class MainDraware extends StatelessWidget {
