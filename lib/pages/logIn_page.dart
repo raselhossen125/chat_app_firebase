@@ -3,7 +3,6 @@
 import 'package:chat_app_firebase/auth/auth_service.dart';
 import 'package:chat_app_firebase/model/userModel.dart';
 import 'package:chat_app_firebase/pages/launcher_page.dart';
-import 'package:chat_app_firebase/pages/userProfile_page.dart';
 import 'package:chat_app_firebase/provider/userProvider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +52,7 @@ class _LogInPageState extends State<LogInPage> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(100),
                 ),
-                child: Image.asset('images/R.jpg'),
+                child: Image.asset('images/R.png'),
               ),
               const SizedBox(height: 20),
               Form(
