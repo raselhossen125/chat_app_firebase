@@ -1,9 +1,13 @@
 // ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, non_constant_identifier_names, unused_local_variable, use_build_context_synchronously
 
 import 'package:chat_app_firebase/auth/auth_service.dart';
+import 'package:chat_app_firebase/model/userModel.dart';
+import 'package:chat_app_firebase/pages/launcher_page.dart';
 import 'package:chat_app_firebase/pages/userProfile_page.dart';
+import 'package:chat_app_firebase/provider/userProvider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LogInPage extends StatefulWidget {
   static const routeName = '/log-in';
@@ -16,6 +20,7 @@ class _LogInPageState extends State<LogInPage> {
   bool passObsecure = true;
   String error = '';
   bool isLogIn = true;
+  bool isLoading = true;
   final formkey = GlobalKey<FormState>();
 
   final email_Controller = TextEditingController();
@@ -32,24 +37,25 @@ class _LogInPageState extends State<LogInPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const SizedBox(height: 20),
+              Text(
+                'Welcome User',
+                style: TextStyle(
+                  color: Color(0xff63BF96),
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 10),
               Container(
                 height: 90,
                 width: 90,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(100),
                 ),
-                child: Image.asset('images/R.png'),
+                child: Image.asset('images/R.jpg'),
               ),
               const SizedBox(height: 20),
-              Text(
-                'Log In As Mess Manager',
-                style: TextStyle(
-                  color: Colors.deepOrange,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 15),
               Form(
                 key: formkey,
                 child: Column(
@@ -187,15 +193,18 @@ class _LogInPageState extends State<LogInPage> {
                       width: 1,
                     ),
                   ),
-                  child: Text(
+                  child: isLoading ? Text(
                     'New User? Register Here',
                     style: TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 18,
                         color: Colors.black),
-                  ),
+                  ) : CircularProgressIndicator(),
                   onPressed: () {
                     isLogIn = false;
+                    setState(() {
+                      isLoading = true;
+                    });
                     authenticate();
                   },
                 ),
@@ -204,8 +213,6 @@ class _LogInPageState extends State<LogInPage> {
               Text(
                 error,
                 style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 18,
                     color: Colors.red),
               ),
             ],
@@ -225,10 +232,20 @@ class _LogInPageState extends State<LogInPage> {
         else {
           status = await AuthService.register(email_Controller.text, password_Controller.text);
           await AuthService.sendVeryficationMail();
+          final userModel = UserModel(
+            uid: AuthService.user!.uid,
+            email: AuthService.user!.email,
+          );
+          if(mounted) {
+            await Provider.of<UserProvider>(context, listen: false).addUser(userModel);
+          }
         }
         if (status) {
           if (!mounted) return;
-          Navigator.pushReplacementNamed(context, UserProfilePage.routeName);
+          Navigator.pushReplacementNamed(context, LauncherPage.routeName);
+          setState(() {
+            isLoading = false;
+          });
         }
       } on FirebaseAuthException catch (e) {
         setState(() {

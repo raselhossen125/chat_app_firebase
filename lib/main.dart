@@ -1,17 +1,25 @@
-
 // ignore_for_file: prefer_const_constructors, unused_local_variable
 
+import 'package:chat_app_firebase/provider/userProvider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'pages/chatRoom_page.dart';
 import 'pages/launcher_page.dart';
 import 'pages/logIn_page.dart';
 import 'pages/userProfile_page.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -32,16 +40,17 @@ class MyApp extends StatelessWidget {
     };
     MaterialColor pokeballRed = MaterialColor(0xff63BF96, pokeballRedSwatch);
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: pokeballRed,
       ),
       initialRoute: LauncherPage.routeName,
       routes: {
-        LauncherPage.routeName: (_)=> LauncherPage(),
-        LogInPage.routeName: (_)=> LogInPage(),
-        UserProfilePage.routeName: (_)=> UserProfilePage(),
-        ChatRoomPage.routeName: (_)=> ChatRoomPage(),
+        LauncherPage.routeName: (_) => LauncherPage(),
+        LogInPage.routeName: (_) => LogInPage(),
+        UserProfilePage.routeName: (_) => UserProfilePage(),
+        ChatRoomPage.routeName: (_) => ChatRoomPage(),
       },
     );
   }
