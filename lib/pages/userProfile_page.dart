@@ -71,23 +71,41 @@ class _UserProfilePageState extends State<UserProfilePage> {
                       title: Text(userModel.name ?? 'No Display name'),
                       trailing: IconButton(
                           onPressed: () {
-                            showInputDialog('Display name', userModel.name,
-                                (value) {
-                              provider.updateProfile(
-                                  AuthService.user!.uid, {'name': value});
-                            });
+                            showInputDialog(
+                              'Display name',
+                              userModel.name,
+                              (value) async {
+                                await provider.updateProfile(
+                                    AuthService.user!.uid, {'name': value});
+                                await AuthService.updateDisplayNamer(value);
+                              },
+                            );
                           },
                           icon: Icon(Icons.edit)),
                     ),
                     ListTile(
                       title: Text(userModel.email ?? 'No Email Address'),
-                      trailing:
-                          IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
+                      trailing: IconButton(
+                          onPressed: () {
+                            showInputDialog('Email address', userModel.email,
+                                (value) {
+                              provider.updateProfile(
+                                  AuthService.user!.uid, {'email': value});
+                            });
+                          },
+                          icon: Icon(Icons.edit)),
                     ),
                     ListTile(
                       title: Text(userModel.mobile ?? 'No Mobile Number'),
-                      trailing:
-                          IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
+                      trailing: IconButton(
+                          onPressed: () {
+                            showInputDialog('Phone number', userModel.mobile,
+                                (value) {
+                              provider.updateProfile(
+                                  AuthService.user!.uid, {'mobile': value});
+                            });
+                          },
+                          icon: Icon(Icons.edit)),
                     ),
                   ],
                 );
@@ -113,6 +131,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                 .updateImage(xFile);
         await Provider.of<UserProvider>(context, listen: false)
             .updateProfile(AuthService.user!.uid, {'image': downloadUrl});
+        await AuthService.updateDisplayImage(downloadUrl);
       } catch (e) {
         throw e;
       }
