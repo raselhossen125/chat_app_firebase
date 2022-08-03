@@ -1,3 +1,5 @@
+// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors_in_immutables, prefer_const_constructors
+
 import 'package:chat_app_firebase/auth/auth_service.dart';
 import 'package:chat_app_firebase/model/message_model.dart';
 import 'package:chat_app_firebase/utils/helper_function.dart';

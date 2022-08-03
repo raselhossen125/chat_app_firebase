@@ -52,13 +52,26 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                 child: Row(
                   children: [
                     Expanded(
-                      child: TextField(
-                        controller: messageController,
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        )),
+                      child: TextFormField(
+                      controller: messageController,
+                      cursorColor: Color(0xff63BF96),
+                      style: TextStyle(
+                          color: Color(0xff63BF96),
+                          fontWeight: FontWeight.w500),
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        contentPadding: EdgeInsets.only(left: 10),
+                        focusColor: Colors.white,
+                        hintText: "Enter Password Password",
+                        hintStyle: TextStyle(
+                            color: Colors.grey, fontWeight: FontWeight.normal),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
                       ),
+                    ),
                     ),
                     IconButton(
                       onPressed: () {
