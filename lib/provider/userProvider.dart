@@ -10,11 +10,20 @@ import '../model/userModel.dart';
 
 class UserProvider extends ChangeNotifier {
   List<UserModel> userList = [];
+  List<UserModel> AllUserList = [];
 
   Future<void> addUser(UserModel userModel) => DBHelper.addUser(userModel);
 
   Stream<DocumentSnapshot<Map<String, dynamic>>> getUserByUId(String uid) =>
       DBHelper.getUserByUId(uid);
+
+  getAllUsers() {
+    DBHelper.getAllUsers().listen((snapshort) {
+      AllUserList = List.generate(snapshort.docs.length,
+          (index) => UserModel.fromMap(snapshort.docs[index].data()));
+      notifyListeners();
+    });
+  }
 
   Future<void> updateProfile(String uid, Map<String, dynamic> map) =>
       DBHelper.updateProfile(uid, map);

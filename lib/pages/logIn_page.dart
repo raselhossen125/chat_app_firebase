@@ -8,6 +8,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../db/dbHelper.dart';
+
 class LogInPage extends StatefulWidget {
   static const routeName = '/log-in';
 
@@ -240,6 +242,9 @@ class _LogInPageState extends State<LogInPage> {
           }
         }
         if (status) {
+          if (AuthService.user != null) {
+            DBHelper.updateProfile(AuthService.user!.uid, {'available' : true});
+          }
           if (!mounted) return;
           Navigator.pushReplacementNamed(context, LauncherPage.routeName);
           setState(() {

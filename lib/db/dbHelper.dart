@@ -34,6 +34,13 @@ class DBHelper {
           .orderBy('msgId', descending: true)
           .snapshots();
 
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllUsers() {
+    return _db
+        .collection(collectionUsers)
+        .orderBy('uid', descending: false)
+        .snapshots();
+  }
+
   static Future<void> updateProfile(String uid, Map<String, dynamic> map) {
     return _db.collection(collectionUsers).doc(uid).update(map);
   }

@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import '../auth/auth_service.dart';
 import 'logIn_page.dart';
+import 'userList_page.dart';
 import 'userProfile_page.dart';
 
 class LauncherPage extends StatefulWidget {
@@ -20,7 +21,7 @@ class _LauncherPageState extends State<LauncherPage> {
         Navigator.pushReplacementNamed(context, LogInPage.routeName);
       }
       else {
-        Navigator.pushReplacementNamed(context, UserProfilePage.routeName);
+        Navigator.pushReplacementNamed(context, UserListPage.routeName);
       }
     });
     super.initState();

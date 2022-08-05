@@ -1,6 +1,7 @@
 // ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors
 
 import 'package:chat_app_firebase/provider/chatRoom_provider.dart';
+import 'package:chat_app_firebase/widgets/mainDraware.dart';
 import 'package:chat_app_firebase/widgets/message_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -32,60 +33,63 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Consumer<ChatRoomProvider>(
-          builder: (context, provider, _) => Column(
-            children: [
-              Expanded(
-                child: ListView.builder(
-                  reverse: true,
-                  itemCount: provider.messageList.length,
-                  itemBuilder: (context, index) {
-                    final msg = provider.messageList[index];
-                    return MessageItem(messageModel: msg);
-                  },
-                ),
+    return Scaffold(
+      backgroundColor: Colors.white.withOpacity(0.9),
+      appBar: AppBar(
+        title: Text('Chat Room'),
+      ),
+      drawer: MainDraware(),
+      body: Consumer<ChatRoomProvider>(
+        builder: (context, provider, _) => Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                reverse: true,
+                itemCount: provider.messageList.length,
+                itemBuilder: (context, index) {
+                  final msg = provider.messageList[index];
+                  return MessageItem(messageModel: msg);
+                },
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                      controller: messageController,
-                      cursorColor: Color(0xff63BF96),
-                      style: TextStyle(
-                          color: Color(0xff63BF96),
-                          fontWeight: FontWeight.w500),
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.white,
-                        contentPadding: EdgeInsets.only(left: 10),
-                        focusColor: Colors.white,
-                        hintText: "Enter Password Password",
-                        hintStyle: TextStyle(
-                            color: Colors.grey, fontWeight: FontWeight.normal),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                    controller: messageController,
+                    cursorColor: Color(0xff63BF96),
+                    style: TextStyle(
+                        color: Color(0xff63BF96),
+                        fontWeight: FontWeight.w500),
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      contentPadding: EdgeInsets.only(left: 10),
+                      focusColor: Colors.white,
+                      hintText: "Enter the message",
+                      hintStyle: TextStyle(
+                          color: Colors.grey, fontWeight: FontWeight.normal),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(20),
                       ),
                     ),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        provider.addMessage(messageController.text);
-                        messageController.clear();
-                      },
-                      icon: Icon(Icons.send),
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
+                  ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      provider.addMessage(messageController.text);
+                      messageController.clear();
+                    },
+                    icon: Icon(Icons.send),
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ],
+              ),
+            )
+          ],
         ),
       ),
     );
